@@ -2,7 +2,7 @@
 
 An AI-powered agentic system for investigating network anomalies and performing Root Cause Analysis (RCA) using LangGraph, Claude Haiku 4.5, and DuckDB.
 
-## 🎯 Overview
+##  Overview
 
 This project implements a semi-autonomous AI agent that can:
 - Investigate network anomalies by correlating evidence from multiple data sources
@@ -10,7 +10,7 @@ This project implements a semi-autonomous AI agent that can:
 - Support conversational follow-up questions
 - Provide general networking expertise
 
-## 🏗️ Architecture
+##  Architecture
 
 ### Core Components
 
@@ -67,7 +67,7 @@ This project implements a semi-autonomous AI agent that can:
 - Safety checks prevent destructive operations
 - Custom SQL tool for complex ad-hoc queries
 
-## 📦 Installation
+##  Installation
 
 ### Prerequisites
 
@@ -113,7 +113,7 @@ cd frontend
 npm install
 ```
 
-## 🚀 Usage
+##  Usage
 
 ### Option 1: CLI Interface (Recommended for Testing)
 
@@ -155,7 +155,7 @@ cd starter_code/notebooks
 jupyter lab network_rca_agent.ipynb
 ```
 
-## 📊 Database Schema
+##  Database Schema
 
 The system uses 4 tables loaded from CSV files:
 
@@ -219,7 +219,7 @@ The agent has access to 8 tools:
 7. **search_logs_by_keyword** - Search logs by keyword across all devices
 8. **execute_custom_query** - Execute custom SQL queries (SELECT only)
 
-## 🧠 Agent Behavior
+##  Agent Behavior
 
 ### Investigation Process
 
@@ -317,7 +317,7 @@ curl http://localhost:8000/health
 
 Should return `{"status":"online","agent_ready":true,"database_ready":true}`.
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Python 3.11+
@@ -374,7 +374,7 @@ python main.py
 
 See [QUICKSTART.md](QUICKSTART.md) for detailed instructions.
 
-## 🎨 Frontend Features
+##  Frontend Features
 
 - **Anomaly Browser**: Click any anomaly to investigate
 - **Chat Interface**: Real-time conversation with the agent
@@ -391,7 +391,7 @@ See [QUICKSTART.md](QUICKSTART.md) for detailed instructions.
 - No sensitive data in logs or error messages
 - API key loaded from environment variables
 
-## 📝 Development Notes
+##  Development Notes
 
 ### Adding New Tools
 
@@ -408,7 +408,7 @@ Edit system prompt in `starter_code/agent/prompts.py` to change investigation st
 
 All styles in `frontend/src/App.css`. Uses CSS variables for theming.
 
-## 🤝 Contributing
+## Contributing
 
 This is a take-home challenge submission. For questions or issues, contact the hiring team.
 
@@ -416,7 +416,7 @@ This is a take-home challenge submission. For questions or issues, contact the h
 
 Proprietary - Spectrum/Charter Communications
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Built with LangGraph, LangChain, and Claude Haiku
 - Frontend powered by React and Vite
