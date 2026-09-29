@@ -1,0 +1,76 @@
+# Docker Compose for Development
+# Run backend with uvicorn and frontend with npm run dev
+
+version: '3.8'
+
+services:
+  # Backend - FastAPI with Multi-Agent System
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: backend
+    container_name: network-investigation-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      # LLM API Keys (set in .env file)
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - HUGGINGFACEHUB_API_TOKEN=${HUGGINGFACEHUB_API_TOKEN:-}
+      
+      # LangSmith (optional)
+      - LANGCHAIN_TRACING_V2=${LANGCHAIN_TRACING_V2:-false}
+      - LANGCHAIN_API_KEY=${LANGCHAIN_API_KEY:-}
+      - LANGCHAIN_PROJECT=network-investigation-agent
+      
+      # Database path (DuckDB)
+      - DUCKDB_PATH=/app/data/network_rca.duckdb
+      
+      # API settings
+      - API_PORT=8000
+    volumes:
+      # Mount code for hot reload during development
+      - ./starter_code:/app/starter_code
+      - ./db:/app/db
+      - duckdb-data:/app/data
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - app-network
+
+  # Frontend - React with Vite (Development Server)
+  frontend:
+    image: node:18-alpine
+    container_name: network-investigation-frontend
+    restart: unless-stopped
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_URL=http://localhost:8000
+      - NODE_ENV=development
+    volumes:
+      # Mount entire frontend for hot reload
+      - ./frontend:/app
+      - /app/node_modules  # Anonymous volume for node_modules
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+volumes:
+  duckdb-data:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge
